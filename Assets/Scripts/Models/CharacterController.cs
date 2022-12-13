@@ -13,6 +13,7 @@ public class CharacterController : IUnit
     public Action<int> IncreaseHealthValueEvent;
 
     private int _currentAttackDelay = 0;
+    private int _minAttackSpeed;
 
     private int _softCurrency;
 
@@ -20,19 +21,40 @@ public class CharacterController : IUnit
     {
         AttackDamage = 1;
         AttackDistance = 9f;
-        SpeedAttack = 800;
-        SpeedMoving = 0.1f;
+        SpeedAttack = 500;
+        SpeedMoving = 0.05f;
         StartHealth = 7;
         CurrentHealth = 5;
         
         _softCurrency = 0;
 
+        IsMoving = false;
+        
         CurrentPosition = gameModel.SpawnPositionCharacter;
 
         Instance = this;
         SubscribeEvents();
     }
 
+    public override bool Move()
+    {
+        if (UnitView != null)
+        {
+            CurrentPosition = Vector3.MoveTowards(CurrentPosition, TargetPosition, SpeedMoving);
+            
+            MoveEvent?.Invoke(CurrentPosition);
+            CameraMovementEvent?.Invoke();
+            
+            if (Vector3.Distance(CurrentPosition,TargetPosition) < 0.01f)
+            {
+                CurrentPosition = TargetPosition;
+                IsMoving = false;
+                return false;
+            }
+        }
+        
+        return true;
+    }
 
     public bool Attack(List<EnemyController> enemies, int msec)
     {
@@ -78,7 +100,6 @@ public class CharacterController : IUnit
             AttackDamage += 1;
             
             IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
-            Debug.Log("IncreaseAttackValue");
         }
     }
     private void IncreaseSpeedOfAttack(int price)
@@ -86,10 +107,12 @@ public class CharacterController : IUnit
         if (_softCurrency >= price)
         {
             _softCurrency -= price;
-            SpeedAttack += 100;
-            
+            if (SpeedAttack > _minAttackSpeed)
+            {
+                SpeedAttack -= 50;
+            }
+
             IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
-            Debug.Log("IncreaseSpeedOfAttack");
         }
     }
     private void IncreaseHealthValue(int price)
@@ -103,7 +126,6 @@ public class CharacterController : IUnit
             UpdateHealthViewEvent?.Invoke(CurrentHealth, StartHealth);
             
             IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
-            Debug.Log("IncreaseHealthValue");
         }
     }
 }

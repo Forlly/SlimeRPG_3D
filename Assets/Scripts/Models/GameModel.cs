@@ -22,6 +22,7 @@ public class GameModel
     public CharacterController Character;
     public List<EnemyController> Enemies = new List<EnemyController>();
     public int TargetCountOfEnemiesOnScreen;
+    public int CurrentCountOfEnemiesOnScreen;
 
     private int _currentCharacterAttackDelay;
     private int _currentEnemyAttackDelay;
@@ -40,6 +41,7 @@ public class GameModel
         Character.Init(this);
 
         TargetCountOfEnemiesOnScreen = 3;
+        CurrentCountOfEnemiesOnScreen = TargetCountOfEnemiesOnScreen;
         
         Debug.Log("GameModel starting");
         
@@ -47,7 +49,7 @@ public class GameModel
 
     public async void StartSimulation()
     {
-        SpawnEnemies(TargetCountOfEnemiesOnScreen);
+        SpawnEnemies(TargetCountOfEnemiesOnScreen, SpawnPositionEnemies);
         await Tick(TickTime);
     }
     public async Task Tick(int msec)
@@ -59,11 +61,11 @@ public class GameModel
 
             if (!Character.IsMoving)
             {
-               
-                if (!Character.Attack(Enemies, msec))
-                {
-                    GoToNextPoint();
-                }
+                Character.Attack(Enemies, msec);
+            }
+            else
+            {
+                Character.Move();
             }
             
             foreach (EnemyController enemy in Enemies)
@@ -76,6 +78,12 @@ public class GameModel
                 }
             }
 
+            if (CurrentCountOfEnemiesOnScreen == 0)
+            {
+                Debug.Log("GO to next");
+                GoToNextPoint();
+                CurrentCountOfEnemiesOnScreen = TargetCountOfEnemiesOnScreen;
+            }
 
             await Task.Delay(msec);
         }
@@ -83,16 +91,16 @@ public class GameModel
         EndModel();
     }
 
-    public void SpawnEnemies(int countOfEnemies)
+    public void SpawnEnemies(int countOfEnemies, Vector3 spawnPos)
     {
         for (int i = 0; i < countOfEnemies; i++)
         {
             EnemyController unit = ObjectsPoolModel.GetPooledObject();
 
-            unit.CurrentPosition = new Vector3(SpawnPositionEnemies.x + i*2, SpawnPositionEnemies.y,
-                SpawnPositionEnemies.z + i*2);
-            unit.UnitView.transform.position = new Vector3(SpawnPositionEnemies.x + i*2, SpawnPositionEnemies.y,
-                SpawnPositionEnemies.z+ i*2);
+            unit.CurrentPosition = new Vector3(spawnPos.x + i*2, spawnPos.y,
+                spawnPos.z + i*2);
+            unit.UnitView.transform.position = new Vector3(spawnPos.x + i*2, spawnPos.y,
+                spawnPos.z+ i*2);
 
             unit.TargetPosition = Character.CurrentPosition;
             unit.Move();
@@ -102,12 +110,17 @@ public class GameModel
 
     public void DleteEnemyFromList(EnemyController enemy)
     {
+        CurrentCountOfEnemiesOnScreen--;
         Enemies.Remove(enemy);
+        Debug.Log(CurrentCountOfEnemiesOnScreen);
     }
     
     public void GoToNextPoint()
     {
+        Debug.Log(CurrentCountOfEnemiesOnScreen);
         Character.TargetPosition = NextCharacterPoint;
+        Character.IsMoving = true;
+        SpawnEnemies(TargetCountOfEnemiesOnScreen, NextEnemiesPoint);
     }
     
     public void EndModel()

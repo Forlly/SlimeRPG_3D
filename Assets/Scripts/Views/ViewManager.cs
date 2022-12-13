@@ -8,6 +8,8 @@ public class ViewManager : MonoBehaviour
     public Transform SpawnPositionCharacter;
     
     [SerializeField] private GameObject _spawnCharacterUnitView;
+    
+    [SerializeField] private CameraMovement _camera;
 
     public Transform NextCharacterPoint;
 
@@ -33,5 +35,9 @@ public class ViewManager : MonoBehaviour
         Debug.Log("ViewManager starting");
         _objectsPoolView.Init(gameModel);
         _optionsPanelView.Init(gameModel);
+
+        _camera.Active = true;
+        _camera.SetCharacter(tmpUnitView.GetComponent<UnitView>().Unit);
+        Debug.Log(_camera.SetCharacter(tmpUnitView.GetComponent<UnitView>().Unit));
     }
 }

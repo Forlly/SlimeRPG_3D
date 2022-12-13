@@ -37,20 +37,13 @@ public class EnemyController : IUnit
     public bool Attack(IUnit _unit, int msec)
     {
         _currentAttackDelay += msec;
-        
-        Debug.Log(_unit);
-        Debug.Log(_currentAttackDelay);
 
         if (_currentAttackDelay > SpeedAttack)
         {
             _currentAttackDelay -= SpeedAttack;
-
-            Debug.Log("DISTANCE 5");
-            Debug.Log(Vector3.Distance(_unit.UnitView.transform.position, this.UnitView.transform.position));
             
             if (Vector3.Distance(_unit.UnitView.transform.position, this.UnitView.transform.position) < AttackDistance)
             {
-                Debug.Log("CHARACTER RECEIVE DAMAGE 5");
                 _unit.ReceiveDamage(AttackDamage);
                 return true;
             }

@@ -7,6 +7,8 @@ public abstract class IUnit
     public int SpeedAttack;
     public int AttackDamage;
     public float AttackDistance;
+    
+    public Action CameraMovementEvent;
 
     public int StartHealth;
     public int CurrentHealth;
@@ -24,7 +26,7 @@ public abstract class IUnit
     public virtual void Init()
     {
         AttackDamage = 1;
-        AttackDistance = 5;
+        AttackDistance = 3;
         SpeedAttack = 800;
         SpeedMoving = 0.004f;
         StartHealth = 3;
@@ -37,10 +39,7 @@ public abstract class IUnit
         if (UnitView != null)
         {
             CurrentPosition = Vector3.MoveTowards(CurrentPosition, TargetPosition, SpeedMoving);
-
-            Debug.Log("POSITION");
-            Debug.Log(CurrentPosition);
-            Debug.Log(TargetPosition);
+            
             MoveEvent?.Invoke(CurrentPosition);
             
             if (Vector3.Distance(CurrentPosition,TargetPosition) < 0.01f)
