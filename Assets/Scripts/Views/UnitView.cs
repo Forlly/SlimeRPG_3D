@@ -35,6 +35,7 @@ public class UnitView : MonoBehaviour
 
     public void UpdateHealthView(int currentHP, int totalHP)
     {
+
         _totalHealth.enabled = true;
         _currentHealth.enabled = true;
         

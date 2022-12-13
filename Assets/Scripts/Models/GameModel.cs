@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GameModel 
+public class GameModel
 {
+    public static GameModel Instance;
+    
     public int AmountPool;
     public int TickTime;
     public ObjectsPoolModel ObjectsPoolModel;
@@ -18,13 +20,18 @@ public class GameModel
     private bool _onSimulation;
 
     public CharacterController Character;
-    public List<IUnit> Enemies = new List<IUnit>();
+    public List<EnemyController> Enemies = new List<EnemyController>();
     public int TargetCountOfEnemiesOnScreen;
+
+    private int _currentCharacterAttackDelay;
+    private int _currentEnemyAttackDelay;
 
     public void Init()
     {
+        Instance = this;
+        
         AmountPool = 32;
-        TickTime = 2;
+        TickTime = 10;
         
         ObjectsPoolModel = new ObjectsPoolModel();
         ObjectsPoolModel.Init(this);
@@ -52,16 +59,21 @@ public class GameModel
 
             if (!Character.IsMoving)
             {
-                if (!Character.Attack(Enemies))
+               
+                if (!Character.Attack(Enemies, msec))
                 {
                     GoToNextPoint();
                 }
             }
             
-            foreach (IUnit enemy in Enemies)
+            foreach (EnemyController enemy in Enemies)
             {
                 enemy.TargetPosition = Character.UnitView.transform.position;
-                enemy.Move();
+ 
+                if (!enemy.Move())
+                {
+                    enemy.Attack(Character, msec);
+                }
             }
 
 
@@ -88,6 +100,11 @@ public class GameModel
         }
     }
 
+    public void DleteEnemyFromList(EnemyController enemy)
+    {
+        Enemies.Remove(enemy);
+    }
+    
     public void GoToNextPoint()
     {
         Character.TargetPosition = NextCharacterPoint;

@@ -6,13 +6,15 @@ public class CharacterController : IUnit
 {
     public static CharacterController Instance;
 
+    private int _currentAttackDelay = 0;
+
     public void Init(GameModel gameModel)
     {
         AttackDamage = 1;
-        AttackDistance = 5;
-        SpeedAttack = 1f;
+        AttackDistance = 9f;
+        SpeedAttack = 800;
         SpeedMoving = 0.1f;
-        StartHealth = 5;
+        StartHealth = 7;
         CurrentHealth = 5;
 
         CurrentPosition = gameModel.SpawnPositionCharacter;
@@ -21,16 +23,25 @@ public class CharacterController : IUnit
     }
 
 
-    public bool Attack(List<IUnit> enemies)
+    public bool Attack(List<EnemyController> enemies, int msec)
     {
-        foreach (IUnit unit in enemies)
+        _currentAttackDelay += msec;
+
+        if (_currentAttackDelay > SpeedAttack)
         {
-            if (Vector3.Distance(unit.UnitView.transform.position, this.UnitView.transform.position) < AttackDistance)
+            _currentAttackDelay -= SpeedAttack;
+
+            foreach (IUnit unit in enemies)
             {
-                unit.ReceiveDamage(AttackDamage);
-                return true;
+                if (Vector3.Distance(unit.UnitView.transform.position, this.UnitView.transform.position) < AttackDistance)
+                {
+                    unit.ReceiveDamage(AttackDamage);
+                    return true;
+                }
             }
+            
         }
+        
         return false;
     }
 }

@@ -27,8 +27,8 @@ public class ObjectsPoolModel
         for (int i = 0; i < _amountPool; i++)
         {
             PoolList tmpUnit = new PoolList();
-            tmpUnit._unit.SpeedMoving = 0.05f;
-            tmpUnit._unit.AttackDistance =2f;
+            tmpUnit._unit.Init();
+   
             _poolObjects.Add(tmpUnit);
         }
     }

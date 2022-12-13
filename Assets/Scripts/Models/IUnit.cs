@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class IUnit
 {
     public float SpeedMoving;
-    public float SpeedAttack;
+    public int SpeedAttack;
     public int AttackDamage;
     public float AttackDistance;
 
@@ -20,6 +20,17 @@ public abstract class IUnit
     public Action<int, int> UpdateHealthViewEvent;
 
     public bool IsMoving = false;
+
+    public virtual void Init()
+    {
+        AttackDamage = 1;
+        AttackDistance = 5;
+        SpeedAttack = 800;
+        SpeedMoving = 0.02f;
+        StartHealth = 3;
+        CurrentHealth = 3;
+        
+    }
     
     public virtual bool Move()
     {
@@ -52,6 +63,7 @@ public abstract class IUnit
     {
         CurrentHealth -= damage;
         Debug.Log("RECEIVE DAMAGE");
+        Debug.Log(CurrentHealth);
         UpdateHealthViewEvent?.Invoke(CurrentHealth, StartHealth);
     }
 }
