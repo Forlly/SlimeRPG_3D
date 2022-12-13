@@ -27,12 +27,15 @@ public class GameModel
     private int _currentCharacterAttackDelay;
     private int _currentEnemyAttackDelay;
 
+    private int _wave;
+
     public void Init()
     {
         Instance = this;
         
         AmountPool = 32;
         TickTime = 20;
+        _wave = 0;
         
         ObjectsPoolModel = new ObjectsPoolModel();
         ObjectsPoolModel.Init(this);
@@ -112,6 +115,8 @@ public class GameModel
                 spawnPos.z+ i*2);
 
             unit.TargetPosition = Character.CurrentPosition;
+
+            unit.IncreaseParameters(_wave / 2,_wave);
             unit.Move(TickTime);
             Enemies.Add(unit);
         }
@@ -125,6 +130,8 @@ public class GameModel
     
     public void GoToNextPoint()
     {
+        _wave++;
+        
         PlatformGenerator.Instance.GenerateNewPlatform();
         NextCharacterPoint = PlatformGenerator.Instance.GetNextCharacterPosition();
         NextEnemiesPoint = PlatformGenerator.Instance.GetNextEnemyPosition();

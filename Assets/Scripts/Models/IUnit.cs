@@ -10,6 +10,8 @@ public abstract class IUnit
     public float AttackDistance;
     
     public Action CameraMovementEvent;
+    
+    public Action<String> ReceiveDamageEvent;
 
     public int StartHealth;
     public int CurrentHealth;
@@ -65,6 +67,7 @@ public abstract class IUnit
         CurrentHealth -= damage;
         Debug.Log("RECEIVE DAMAGE");
         Debug.Log(CurrentHealth);
+        ReceiveDamageEvent?.Invoke(damage.ToString());
         UpdateHealthViewEvent?.Invoke(CurrentHealth, StartHealth);
     }
 }

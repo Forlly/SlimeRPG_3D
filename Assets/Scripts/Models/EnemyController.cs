@@ -20,12 +20,13 @@ public class EnemyController : IUnit
         
         return true;
     }
-    
+
     public override void ReceiveDamage(int damage)
     {
         CurrentHealth -= damage;
         UpdateHealthViewEvent?.Invoke(CurrentHealth, StartHealth);
 
+        ReceiveDamageEvent?.Invoke(damage.ToString());
         if (CurrentHealth <= 0)
         {
             GameModel.Instance.DleteEnemyFromList(this);
@@ -51,5 +52,12 @@ public class EnemyController : IUnit
         }
         
         return false;
+    }
+
+    public void IncreaseParameters(int attackDamage, int countOfHealth)
+    {
+        AttackDamage += attackDamage;
+        StartHealth += countOfHealth;
+        CurrentHealth += countOfHealth;
     }
 }

@@ -38,10 +38,7 @@ public class WeaponController : MonoBehaviour
         
         Vector3 center = (startPoint + unit.UnitView.transform.position)* 0.5F;
         center -= new Vector3(0, 1, 0);
-        
-        Vector3 startingPoint = startPoint - center;
-        Vector3 endingPoint = unit.UnitView.transform.position - center;
-        
+
         float progressFly = 0f;
 
         float currentTime = 0f;
