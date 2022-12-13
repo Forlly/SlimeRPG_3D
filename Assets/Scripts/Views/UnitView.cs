@@ -49,4 +49,5 @@ public class UnitView : MonoBehaviour
         _currentHealth.fillAmount = percentCurrentHp/100f;
         
     }
+    
 }

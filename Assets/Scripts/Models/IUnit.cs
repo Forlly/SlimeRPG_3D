@@ -26,7 +26,7 @@ public abstract class IUnit
         AttackDamage = 1;
         AttackDistance = 5;
         SpeedAttack = 800;
-        SpeedMoving = 0.02f;
+        SpeedMoving = 0.004f;
         StartHealth = 3;
         CurrentHealth = 3;
         

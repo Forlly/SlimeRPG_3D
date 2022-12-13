@@ -13,6 +13,7 @@ public class ViewManager : MonoBehaviour
 
     [SerializeField] private UnitView _characterView;
     [SerializeField] public ObjectsPoolView _objectsPoolView;
+    [SerializeField] public OptionsPanelView _optionsPanelView;
         
     private void Awake()
     {
@@ -31,5 +32,6 @@ public class ViewManager : MonoBehaviour
         tmpUnitView.GetComponent<UnitView>().Init(gameModel);
         Debug.Log("ViewManager starting");
         _objectsPoolView.Init(gameModel);
+        _optionsPanelView.Init(gameModel);
     }
 }

@@ -31,7 +31,7 @@ public class GameModel
         Instance = this;
         
         AmountPool = 32;
-        TickTime = 10;
+        TickTime = 2;
         
         ObjectsPoolModel = new ObjectsPoolModel();
         ObjectsPoolModel.Init(this);

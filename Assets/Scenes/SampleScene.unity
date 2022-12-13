@@ -1229,7 +1229,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 10
 --- !u!222 &631138576
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1526,7 +1526,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 10
 --- !u!222 &721597543
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1954,7 +1954,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 10
 --- !u!222 &1112220350
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2285,6 +2285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1221075742}
+  - component: {fileID: 1221075743}
   m_Layer: 5
   m_Name: Options Panel
   m_TagString: Untagged
@@ -2314,6 +2315,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -629}
   m_SizeDelta: {x: 1836, y: 765}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1221075743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221075741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7934051f48b3ff34fbe07192fea8e189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _increaseAttackValue: {fileID: 2010164599}
+  _increaseSpeedOfAttack: {fileID: 1153908373}
+  _increaseHealthValue: {fileID: 461463439}
+  _priceIncreaseAttackValue: {fileID: 1112220349}
+  _priceIncreaseSpeedOfAttack: {fileID: 631138575}
+  _priceIncreaseHealthValue: {fileID: 721597542}
+  _countOfSoftCurrencyText: {fileID: 1774969463}
 --- !u!4 &1246406023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5494873358532638156, guid: 68d793797af052f4f8aca92ba961ce1f, type: 3}
@@ -3121,6 +3141,7 @@ MonoBehaviour:
   NextCharacterPoint: {fileID: 498963922}
   _characterView: {fileID: 6285827911298855546, guid: 449f5f3862c89d14c9dc312e63e58900, type: 3}
   _objectsPoolView: {fileID: 370248500}
+  _optionsPanelView: {fileID: 1221075743}
 --- !u!1 &2010164597
 GameObject:
   m_ObjectHideFlags: 0
