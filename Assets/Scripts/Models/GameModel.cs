@@ -32,7 +32,7 @@ public class GameModel
         Instance = this;
         
         AmountPool = 32;
-        TickTime = 2;
+        TickTime = 20;
         
         ObjectsPoolModel = new ObjectsPoolModel();
         ObjectsPoolModel.Init(this);
@@ -60,19 +60,19 @@ public class GameModel
         {
 
             if (!Character.IsMoving)
-            {
+            { 
                 Character.Attack(Enemies, msec);
             }
             else
             {
-                Character.Move();
+                Character.Move(msec);
             }
             
             foreach (EnemyController enemy in Enemies)
             {
                 enemy.TargetPosition = Character.UnitView.transform.position;
  
-                if (!enemy.Move())
+                if (!enemy.Move(msec))
                 {
                     enemy.Attack(Character, msec);
                 }
@@ -88,7 +88,11 @@ public class GameModel
             if (NextCharacterPoint.x - Character.UnitView.transform.position.x < 0.1)
             {
                 Debug.Log("DESTROY");
-                PlatformGenerator.Instance.DeletePreviousPlatform();
+                if (PlatformGenerator.Instance != null)
+                {
+                    Debug.Log(PlatformGenerator.Instance);
+                    PlatformGenerator.Instance.DeletePreviousPlatform();
+                }
             }
             await Task.Delay(msec);
         }
@@ -108,7 +112,7 @@ public class GameModel
                 spawnPos.z+ i*2);
 
             unit.TargetPosition = Character.CurrentPosition;
-            unit.Move();
+            unit.Move(TickTime);
             Enemies.Add(unit);
         }
     }

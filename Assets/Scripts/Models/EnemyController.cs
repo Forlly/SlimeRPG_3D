@@ -3,11 +3,11 @@ using UnityEngine;
 public class EnemyController : IUnit
 {
     private int _currentAttackDelay = 0;
-    public override bool Move()
+    public override bool Move(int msec)
     {
         if (UnitView != null)
         {
-            CurrentPosition = Vector3.MoveTowards(CurrentPosition, TargetPosition, SpeedMoving);
+            CurrentPosition = Vector3.MoveTowards(CurrentPosition, TargetPosition, SpeedMoving * msec);
 
             if (Vector3.Distance(CurrentPosition,TargetPosition) < AttackDistance - 0.5f)
             {

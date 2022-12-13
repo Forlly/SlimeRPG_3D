@@ -40,7 +40,8 @@ public class PlatformGenerator : MonoBehaviour
     public void DeletePreviousPlatform()
     {
         Debug.Log(_currentPlatform);
-        if (_currentPlatform == null) return;
+        if (_currentPlatform == null ) return;
+        if (_currentPlatform == _previousPosition) return;
         
         Destroy(_previousPosition.gameObject);
         Debug.Log(_previousPosition.gameObject);

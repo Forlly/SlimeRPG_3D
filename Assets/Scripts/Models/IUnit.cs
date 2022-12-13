@@ -30,13 +30,13 @@ public abstract class IUnit
         SpeedAttack = 2;
         AttackDistance = 3;
         AttackDelay = 1000;
-        SpeedMoving = 0.004f;
+        SpeedMoving = 0.0015f;
         StartHealth = 3;
         CurrentHealth = 3;
         
     }
     
-    public virtual bool Move()
+    public virtual bool Move(int msec)
     {
         if (UnitView != null)
         {

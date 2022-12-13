@@ -30,14 +30,18 @@ public class WeaponController : MonoBehaviour
             _bullet.transform.position = startPoint;
         }
 
-        Debug.Log("SPEED");
-        Debug.Log(CharacterController.Instance.SpeedAttack);
-        
         float wspeed = (CharacterController.Instance.SpeedAttack * Time.deltaTime) /
                        Vector3.Distance(startPoint, unit.UnitView.transform.position);
 
         LifeTime = Vector3.Distance(startPoint, unit.UnitView.transform.position) /
                    (CharacterController.Instance.SpeedAttack *  Time.deltaTime);
+        
+        Vector3 center = (startPoint + unit.UnitView.transform.position)* 0.5F;
+        center -= new Vector3(0, 1, 0);
+        
+        Vector3 startingPoint = startPoint - center;
+        Vector3 endingPoint = unit.UnitView.transform.position - center;
+        
         float progressFly = 0f;
 
         float currentTime = 0f;
@@ -47,15 +51,11 @@ public class WeaponController : MonoBehaviour
             currentTime += Time.fixedDeltaTime;
 
             progressFly += wspeed;
-            Debug.Log("BULLET");
-            Debug.Log(progressFly);
-            Debug.Log(_bullet.transform.position);
-            Debug.Log(unit.UnitView.transform.position);
-            _bullet.transform.position = Vector3.Lerp(startPoint, unit.UnitView.transform.position, progressFly);
 
-            Debug.Log("TIME");
-            Debug.Log(currentTime);
-            Debug.Log(LifeTime);
+            _bullet.transform.position =
+                Vector3.Slerp(startPoint - center, unit.UnitView.transform.position - center, progressFly);
+            _bullet.transform.position += center;
+
             if (currentTime >= LifeTime || progressFly > 1)
             {
                 CharacterController.Instance.MakeDamageEvent?.Invoke(unit);
