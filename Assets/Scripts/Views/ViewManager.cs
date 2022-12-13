@@ -12,6 +12,7 @@ public class ViewManager : MonoBehaviour
     [SerializeField] private CameraMovement _camera;
 
     public Transform NextCharacterPoint;
+    public Transform NextEnemiesPoint;
 
     [SerializeField] private UnitView _characterView;
     [SerializeField] public ObjectsPoolView _objectsPoolView;
@@ -26,9 +27,8 @@ public class ViewManager : MonoBehaviour
     public void Init(GameModel gameModel)
     {
         gameModel.SpawnPositionCharacter = SpawnPositionCharacter.position;
-        gameModel.NextCharacterPoint = NextCharacterPoint.position;
-        
-        
+
+
         GameObject tmpUnitView =
             Instantiate(_spawnCharacterUnitView, SpawnPositionCharacter.position, Quaternion.identity);
         tmpUnitView.GetComponent<UnitView>().Init(gameModel);

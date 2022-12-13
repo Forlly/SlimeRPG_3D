@@ -11,6 +11,7 @@ public class CharacterController : IUnit
     public Action<int> IncreaseAttackValueEvent;
     public Action<int> IncreaseSpeedOfAttackEvent;
     public Action<int> IncreaseHealthValueEvent;
+    public Action<IUnit> MakeDamageEvent;
 
     private int _currentAttackDelay = 0;
     private int _minAttackSpeed;
@@ -21,8 +22,9 @@ public class CharacterController : IUnit
     {
         AttackDamage = 1;
         AttackDistance = 9f;
-        SpeedAttack = 500;
+        AttackDelay = 900;
         SpeedMoving = 0.05f;
+        SpeedAttack = 5f;
         StartHealth = 7;
         CurrentHealth = 5;
         
@@ -60,21 +62,16 @@ public class CharacterController : IUnit
     {
         _currentAttackDelay += msec;
 
-        if (_currentAttackDelay > SpeedAttack)
+        if (_currentAttackDelay > AttackDelay)
         {
-            _currentAttackDelay -= SpeedAttack;
+            _currentAttackDelay -= AttackDelay;
 
             foreach (IUnit unit in enemies)
             {
                 if (Vector3.Distance(unit.UnitView.transform.position, this.UnitView.transform.position) < AttackDistance)
                 {
-                    unit.ReceiveDamage(AttackDamage);
-                    if (unit.CurrentHealth <= 0)
-                    {
-                        _softCurrency += 10;
-                        IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
-                    }
-                    Debug.Log(_softCurrency);
+                    Debug.Log("SHOT");
+                    WeaponController.Instance.Fire(unit);
                     return true;
                 }
             }
@@ -84,11 +81,23 @@ public class CharacterController : IUnit
         return false;
     }
 
+    private void MakeDamage(IUnit unit)
+    {
+        unit.ReceiveDamage(AttackDamage);
+        if (unit.CurrentHealth <= 0)
+        {
+            _softCurrency += 10;
+            IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
+        }
+
+    }
+
     private void SubscribeEvents()
     {
         IncreaseAttackValueEvent += IncreaseAttackValue;
         IncreaseSpeedOfAttackEvent += IncreaseSpeedOfAttack;
         IncreaseHealthValueEvent += IncreaseHealthValue;
+        MakeDamageEvent += MakeDamage;
     }
     
     
@@ -107,9 +116,9 @@ public class CharacterController : IUnit
         if (_softCurrency >= price)
         {
             _softCurrency -= price;
-            if (SpeedAttack > _minAttackSpeed)
+            if (AttackDelay > _minAttackSpeed)
             {
-                SpeedAttack -= 50;
+                AttackDelay -= 50;
             }
 
             IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
@@ -128,4 +137,5 @@ public class CharacterController : IUnit
             IncreaseSoftCurrencyEvent?.Invoke(_softCurrency.ToString());
         }
     }
+    
 }

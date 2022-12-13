@@ -85,6 +85,11 @@ public class GameModel
                 CurrentCountOfEnemiesOnScreen = TargetCountOfEnemiesOnScreen;
             }
 
+            if (NextCharacterPoint.x - Character.UnitView.transform.position.x < 0.1)
+            {
+                Debug.Log("DESTROY");
+                PlatformGenerator.Instance.DeletePreviousPlatform();
+            }
             await Task.Delay(msec);
         }
             
@@ -112,12 +117,14 @@ public class GameModel
     {
         CurrentCountOfEnemiesOnScreen--;
         Enemies.Remove(enemy);
-        Debug.Log(CurrentCountOfEnemiesOnScreen);
     }
     
     public void GoToNextPoint()
     {
-        Debug.Log(CurrentCountOfEnemiesOnScreen);
+        PlatformGenerator.Instance.GenerateNewPlatform();
+        NextCharacterPoint = PlatformGenerator.Instance.GetNextCharacterPosition();
+        NextEnemiesPoint = PlatformGenerator.Instance.GetNextEnemyPosition();
+        
         Character.TargetPosition = NextCharacterPoint;
         Character.IsMoving = true;
         SpawnEnemies(TargetCountOfEnemiesOnScreen, NextEnemiesPoint);

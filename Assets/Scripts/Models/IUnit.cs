@@ -4,7 +4,8 @@ using UnityEngine;
 public abstract class IUnit
 {
     public float SpeedMoving;
-    public int SpeedAttack;
+    public int AttackDelay;
+    public float SpeedAttack;
     public int AttackDamage;
     public float AttackDistance;
     
@@ -26,8 +27,9 @@ public abstract class IUnit
     public virtual void Init()
     {
         AttackDamage = 1;
+        SpeedAttack = 2;
         AttackDistance = 3;
-        SpeedAttack = 800;
+        AttackDelay = 1000;
         SpeedMoving = 0.004f;
         StartHealth = 3;
         CurrentHealth = 3;

@@ -38,9 +38,9 @@ public class EnemyController : IUnit
     {
         _currentAttackDelay += msec;
 
-        if (_currentAttackDelay > SpeedAttack)
+        if (_currentAttackDelay > AttackDelay)
         {
-            _currentAttackDelay -= SpeedAttack;
+            _currentAttackDelay -= AttackDelay;
             
             if (Vector3.Distance(_unit.UnitView.transform.position, this.UnitView.transform.position) < AttackDistance)
             {

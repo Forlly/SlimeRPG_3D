@@ -49,7 +49,9 @@ public class ObjectsPoolView : MonoBehaviour
             {
                 _poolObjects[i].gameObject.SetActive(true);
                 _poolObjects[i].Unit = unit;
-                
+
+                _poolObjects[i].Unit.CurrentHealth = _poolObjects[i].Unit.StartHealth;
+                _poolObjects[i].UpdateHealthView(_poolObjects[i].Unit.CurrentHealth, _poolObjects[i].Unit.StartHealth);
                 return _poolObjects[i];
             }
             

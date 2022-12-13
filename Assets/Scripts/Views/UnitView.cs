@@ -39,11 +39,6 @@ public class UnitView : MonoBehaviour
         _totalHealth.enabled = true;
         _currentHealth.enabled = true;
         
-        if (currentHP <= 0)
-        {
-            _totalHealth.enabled = false;
-            _currentHealth.enabled = false;
-        }
         float percentCurrentHp = 100f * currentHP / totalHP;
         
         _currentHealth.fillAmount = percentCurrentHp/100f;
