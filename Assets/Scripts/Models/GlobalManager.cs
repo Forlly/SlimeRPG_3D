@@ -1,18 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private ViewManager _viewManager;
+    private GameModel _gameModel;
+    
+    public Transform SpawnPositionCharacter;
+    
+    public Transform SpawnPositionEnemies;
+    private void Awake()
     {
+        _gameModel = new GameModel();
+        _gameModel.SpawnPositionCharacter = SpawnPositionCharacter.position;
+        _gameModel.SpawnPositionEnemies = SpawnPositionEnemies.position;
+        _gameModel.Init();
+        _viewManager.Init(_gameModel);
         
+        _gameModel.StartSimulation();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        _gameModel.EndModel();
     }
 }

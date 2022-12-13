@@ -9,23 +9,28 @@ public class CharacterController : IUnit
     public void Init(GameModel gameModel)
     {
         AttackDamage = 1;
+        AttackDistance = 5;
         SpeedAttack = 1f;
-        SpeedMoving = 1f;
+        SpeedMoving = 0.1f;
         StartHealth = 5;
         CurrentHealth = 5;
-    
+
+        CurrentPosition = gameModel.SpawnPositionCharacter;
+
         Instance = this;
     }
 
-    public void Attack(List<IUnit> enemies)
+
+    public bool Attack(List<IUnit> enemies)
     {
         foreach (IUnit unit in enemies)
         {
             if (Vector3.Distance(unit.UnitView.transform.position, this.UnitView.transform.position) < AttackDistance)
             {
                 unit.ReceiveDamage(AttackDamage);
-                break;
+                return true;
             }
         }
+        return false;
     }
 }
